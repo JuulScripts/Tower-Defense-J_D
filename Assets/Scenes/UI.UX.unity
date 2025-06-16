@@ -7187,7 +7187,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7707037789316420535, guid: 6c452f2ee51333c40bc3af63a63c9978, type: 3}
       propertyPath: m_TagString
-      value: Placeable
+      value: EndPoint
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
