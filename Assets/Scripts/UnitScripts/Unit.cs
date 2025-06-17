@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -21,10 +22,11 @@ public class Unit : MonoBehaviour
     [Header("Hitbox Settings")]
     [SerializeField] private float hitboxsize;
     private CapsuleCollider hitbox;
-
+    
     [Header("Internal State")]
     [SerializeField, Tooltip("Used to control hit cooldown internally")]
     private bool canhit = true;
+    private List<GameObject> targets;
     public enum states
     {
         idle,
@@ -39,13 +41,14 @@ public class Unit : MonoBehaviour
         SingleTarget
     }
 
-    
+
 
     private void Start()
     {
         hitbox = GetComponent<CapsuleCollider>();
         hitbox.radius = hitboxsize;
         animator = GetComponent<Animator>();
+        targets = new List<GameObject>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -76,21 +79,33 @@ public class Unit : MonoBehaviour
         canhit = true;
     }
     private void OnTriggerStay(Collider other)
-    {   
-       
-        if (other.CompareTag("Enemy") && canhit == true)
+    {
+
+
+        if (other.CompareTag("Enemy") )
         {
             Debug.Log("atacked");
-            canhit = false;
-            if (attackType != AttackTypes.SingleTarget)
+           
+            if (attackType != AttackTypes.SingleTarget && !targets.Contains(other.gameObject))
             {
                 target = other.gameObject;
-                
+                targets.Add(target);
+                print(targets);
             }
-            //  int attackfunction, GameObject target, float Number, Action effect = null
-      
-            UnitBehaviour.Attack((int)attackType, target, damage, animator, Effect);
-            StartCoroutine(resethitcooldown());
+            if (canhit == true)
+            {
+                canhit = false;
+                UnitParams unitParams = new UnitParams(
+   (int)attackType,
+   target,
+   targets,
+   damage,
+   animator,
+   Effect
+);
+                UnitBehaviour.Attack(unitParams);
+                StartCoroutine(resethitcooldown());
+            } 
         }
     }
     private void Update()

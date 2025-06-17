@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -6,14 +7,14 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float health;
      public int speed;
     private Animator animator;
-
-
+    [SerializeField] private int value;
+    private bool isdead = false;
 
     public enum EnemyStates
     {
         Moving,
         Attacking,
-        Idle
+        Idle,
     }
     private void Start()
     {
@@ -23,12 +24,33 @@ public class Enemy : MonoBehaviour
     public EnemyStates state = EnemyStates.Idle;
     public void DecreaseHealth(float amount)
     {
+        if (!isdead)
+        {
         health -= amount;
+        if (health <= 0)
+        {
+            Die();
+        }
+        }
     }
     
+    private void Die()
+    {
+        isdead = true;
+        AnimationHandler.SetTrueBool("IsDead", animator);
+        StartCoroutine(DeleteEnemy());
+    }
+
+    private IEnumerator DeleteEnemy()
+    {
+       
+          yield return new WaitForSeconds(AnimationHandler.GetWaitTime(animator)+0.5f);
+    
+        PlayerHandling.Player.money += value;
+        Destroy(gameObject);
 
 
-
+    }
     public void move()
     {
         state = EnemyStates.Moving;
