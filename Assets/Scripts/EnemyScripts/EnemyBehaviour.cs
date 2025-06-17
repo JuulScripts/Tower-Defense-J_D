@@ -9,7 +9,6 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private int rotationSpeed;
     private Enemy Enemy;
     private float MoveSpeed;
-    private bool shouldmove = true;
     private int currentindex;
 
     private void Start()
