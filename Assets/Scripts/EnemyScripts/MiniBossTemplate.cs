@@ -1,16 +1,14 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MiniBossTemplate : Enemy
 {
      [SerializeField] private int attackwait; 
     private bool canattack = true;
-    private Action customlogic;
+    [SerializeField] private UnityAction customlogic;
 
-    MiniBossTemplate(Action Function)
-    {
-        customlogic = Function;
-    }
+ 
 
     private void Attack()
     {

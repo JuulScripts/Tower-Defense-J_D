@@ -84,7 +84,7 @@ public class Unit : MonoBehaviour
 
         if (other.CompareTag("Enemy") )
         {
-            Debug.Log("atacked");
+         
            
             if (attackType != AttackTypes.SingleTarget && !targets.Contains(other.gameObject))
             {
