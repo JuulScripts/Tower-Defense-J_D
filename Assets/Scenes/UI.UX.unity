@@ -3076,64 +3076,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6268069733278782061, guid: 21784e75583bd7847b965f9b16505160, type: 3}
   m_PrefabInstance: {fileID: 783970796}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &806177910
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 806177911}
-  - component: {fileID: 806177912}
-  m_Layer: 0
-  m_Name: GameUiManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &806177911
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 806177910}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 28.6, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &806177912
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 806177910}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66e2d5981f61a744eb1d34f9e0cacec9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _towerButtons:
-  - {fileID: 1507047883}
-  - {fileID: 655912157}
-  - {fileID: 1326348454}
-  - {fileID: 448786016}
-  _priceTexts:
-  - {fileID: 1696872083}
-  - {fileID: 1118873551}
-  - {fileID: 364574875}
-  - {fileID: 1230540143}
-  _towerCosts: 0f000000190000003200000064000000
-  _moneyText: {fileID: 2047729858}
-  _timerText: {fileID: 1045695284}
-  _killsText: {fileID: 2046835295}
 --- !u!1001 &837516731
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5766,7 +5708,6 @@ MonoBehaviour:
   _quitButton: {fileID: 1336610412}
   _backButton: {fileID: 1047874808}
   _mainMenuPanel: {fileID: 365420774}
-  _gameUIPanel: {fileID: 1878468754}
   _optionsPanel: {fileID: 1285080861}
 --- !u!4 &1320019316
 Transform:
@@ -7192,13 +7133,34 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7707037789316420535, guid: 6c452f2ee51333c40bc3af63a63c9978, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1759712691}
   m_SourcePrefab: {fileID: 100100000, guid: 6c452f2ee51333c40bc3af63a63c9978, type: 3}
 --- !u!4 &1759712689 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6678767680157213092, guid: 6c452f2ee51333c40bc3af63a63c9978, type: 3}
   m_PrefabInstance: {fileID: 1759712688}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1759712690 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7707037789316420535, guid: 6c452f2ee51333c40bc3af63a63c9978, type: 3}
+  m_PrefabInstance: {fileID: 1759712688}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1759712691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759712690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f2803b41a96e6c4bb579d02c7a6e853, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 750
 --- !u!1001 &1770695031
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9085,4 +9047,3 @@ SceneRoots:
   - {fileID: 1396500758}
   - {fileID: 1636929451}
   - {fileID: 1320019316}
-  - {fileID: 806177911}

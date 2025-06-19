@@ -8,6 +8,7 @@ TagManager:
   - 'Roads '
   - Placeable
   - EndPoint
+  - StartPointSpawer
   layers:
   - Default
   - TransparentFX

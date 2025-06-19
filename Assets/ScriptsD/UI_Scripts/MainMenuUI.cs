@@ -12,7 +12,6 @@ public class MainMenuUI : MonoBehaviour
 
     [Header("Panels")]
     [SerializeField] private GameObject _mainMenuPanel;
-    [SerializeField] private GameObject _gameUIPanel;
     [SerializeField] private GameObject _optionsPanel;
 
     void Start()
@@ -27,8 +26,7 @@ public class MainMenuUI : MonoBehaviour
     void StartGame()
     {
         _mainMenuPanel.SetActive(false);
-        _gameUIPanel.SetActive(true);
-        Debug.Log("Game UI geactiveerd");
+        SceneManager.LoadScene("Level1Scene");
     }
 
     void OpenOptions()
@@ -41,7 +39,6 @@ public class MainMenuUI : MonoBehaviour
     void BackToMainMenu()
     {
         _optionsPanel.SetActive(false);
-        _gameUIPanel.SetActive(false);
         _mainMenuPanel.SetActive(true);
         Debug.Log("Terug naar hoofdmenu");
     }

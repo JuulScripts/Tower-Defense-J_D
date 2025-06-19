@@ -26,14 +26,15 @@ public class GameUIManager : MonoBehaviour
 
     void Update()
     {
-        _timer += Time.deltaTime;
-        _timerText.text = "Time: " + FormatTime(_timer);
+       UpdateTopBar();
     }
 
     void UpdateTopBar()
     {
         _moneyText.text = $"[${_playerMoney}]";
         _killsText.text = $"[Kills:{_kills}]";
+        _timer += Time.deltaTime;
+        _timerText.text = "Time: " + FormatTime(_timer);
     }
 
     void UpdateTowerButtons()
