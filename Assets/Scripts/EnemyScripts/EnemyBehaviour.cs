@@ -7,6 +7,7 @@ public class EnemyBehaviour : MonoBehaviour
 {
     [SerializeField] private GameObject[] waypoints;
     [SerializeField] private int rotationSpeed;
+
     private Enemy Enemy;
     private float MoveSpeed;
     private int currentindex;
@@ -46,6 +47,10 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
   
+    public void Upgrade()
+    {
+
+    }
 
     private void Update()
     {

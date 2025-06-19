@@ -42,6 +42,7 @@ public class UnitBehaviour : MonoBehaviour
     }
     private static void BuffUnits(GameObject target, float multiplier)
     {
+
         if (target  != null) {
             if (target.CompareTag("Unit"))
             {
@@ -50,8 +51,22 @@ public class UnitBehaviour : MonoBehaviour
             }
         }
     }
+    private static void TriggerAnimations(Animator[] animators, MonoBehaviour routinerunner)
+    {
+        foreach (Animator animator in animators)
+        {
+            Debug.Log("isAttacking: " + animator.GetBool("Attack"));
+         
+         
+            AnimationHandler.Trigger("Attack",animator,  routinerunner);
+        }
+     
+    }
 
-
+    private static void CheckEnemyType(Enemy enemy, Unit.UnitTypes unittype)
+    {
+        if (enemy.enemytype) //
+    }
     public static void Attack(UnitParams data)
     {
         Debug.Log(data.effect);
@@ -62,11 +77,12 @@ public class UnitBehaviour : MonoBehaviour
         () => DamageEnemy(data.target, data.number, data.effect)
     };
 
-        AnimationHandler.Trigger("Attack", data.animator);
-        Attacks[data.attackFunction].Invoke();
+   
+        if ()
+        {
+            TriggerAnimations(data.animator, data.routinerunner);
+            Attacks[data.attackFunction].Invoke();
+        }
+         
     }
-
-
-
-
 }

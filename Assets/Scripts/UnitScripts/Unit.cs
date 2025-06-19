@@ -13,20 +13,21 @@ public class Unit : MonoBehaviour
     public float damage;
     [SerializeField] private float hitcooldown;
     [SerializeField] private float rotationSpeed;
-    private Animator animator;
+    private Animator[] animators;
     [Header("Targeting & Effects")]
     [SerializeField] private UnityEvent Effect;
     private GameObject target;
     private GameObject LookTarget;
+    public UnitTypes unitType;
 
-    [Header("Hitbox Settings")]
-    [SerializeField] private float hitboxsize;
-    private CapsuleCollider hitbox;
     
     [Header("Internal State")]
     [SerializeField, Tooltip("Used to control hit cooldown internally")]
     private bool canhit = true;
     private List<GameObject> targets;
+    [Header("Misc")]
+    [SerializeField] private GameObject upgradedunit;
+    
     public enum states
     {
         idle,
@@ -41,13 +42,15 @@ public class Unit : MonoBehaviour
         SingleTarget
     }
 
-
+    public enum UnitTypes
+    {
+        None,
+        Special
+    }
 
     private void Start()
     {
-        hitbox = GetComponent<CapsuleCollider>();
-        hitbox.radius = hitboxsize;
-        animator = GetComponent<Animator>();
+        animators = GetComponentsInChildren<Animator>();
         targets = new List<GameObject>();
     }
 
@@ -68,9 +71,14 @@ public class Unit : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         LookTarget = null;
+   
         if (target == other.gameObject)
         {
             target = null;
+        }
+        if (targets.Contains(other.gameObject))
+        {
+            targets.Remove(other.gameObject);
         }
     }
     private IEnumerator resethitcooldown()
@@ -100,7 +108,9 @@ public class Unit : MonoBehaviour
    target,
    targets,
    damage,
-   animator,
+   animators, 
+   this,
+   unitType,
    Effect
 );
                 UnitBehaviour.Attack(unitParams);
@@ -108,13 +118,33 @@ public class Unit : MonoBehaviour
             } 
         }
     }
+
+    public void Upgrade()
+    {
+        Instantiate(upgradedunit, transform.position, transform.rotation);
+        Destroy(gameObject);
+    }
+
     private void Update()
     {
         if (target != null)
         {
-            Vector3 direction = (target.transform.position - transform.position).normalized;
+            foreach (Transform trans in transform)
+            {
+                GameObject character = trans.gameObject;
+     
+            Vector3 direction = (target.transform.position - trans.transform.position).normalized;
             Quaternion targetRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+         
+            Vector3 euler = targetRotation.eulerAngles;
+            euler.x = 0f;
+            targetRotation = Quaternion.Euler(euler);
+
+         
+            trans.transform.rotation = Quaternion.Lerp(trans.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+        }
         }
     }
 }
