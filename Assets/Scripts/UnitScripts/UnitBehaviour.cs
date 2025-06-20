@@ -3,24 +3,27 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class UnitBehaviour : MonoBehaviour
 {
    
 
-  private static void DamageEnemy( GameObject target, float damage , UnityEvent effect = null)
+  private static void DamageEnemy( GameObject target, float damage , Unit.UnitTypes unit ,UnityEvent effect = null)
     {
       
         if (target != null) {
           
         Enemy enemy = target.GetComponent<Enemy>();
-            if (effect != null && effect.GetPersistentEventCount() == 0)
-            {
-            enemy.DecreaseHealth(damage);
+            if (enemy.enemytype == Enemy.EnemyTypes.None || unit == Unit.UnitTypes.Special) {
+                if (effect != null && effect.GetPersistentEventCount() == 0)
+                {
+                    enemy.DecreaseHealth(damage);
+                }
         }
         }
     }
-    private static void DamageEnemys(List<GameObject> targets, float damage, UnityEvent effect = null)
+    private static void DamageEnemys(List<GameObject> targets, float damage,Unit.UnitTypes unit ,UnityEvent effect = null)
     {
         for (int i = 0; i < targets.Count; i++)
         {
@@ -29,12 +32,14 @@ public class UnitBehaviour : MonoBehaviour
 
             if (target != null)
             {
-          
                 Enemy enemy = target.GetComponent<Enemy>();
-                if (effect != null && effect.GetPersistentEventCount() == 0)
+                if (enemy.enemytype == Enemy.EnemyTypes.None || unit == Unit.UnitTypes.Special)
                 {
-                    enemy.DecreaseHealth(damage);
-                    print(target.name);
+                    if (effect != null && effect.GetPersistentEventCount() == 0)
+                    {
+                        enemy.DecreaseHealth(damage);
+                        print(target.name);
+                    }
                 }
             }
         }
@@ -65,24 +70,24 @@ public class UnitBehaviour : MonoBehaviour
 
     private static void CheckEnemyType(Enemy enemy, Unit.UnitTypes unittype)
     {
-        if (enemy.enemytype) //
+      
     }
     public static void Attack(UnitParams data)
     {
+     
+        
         Debug.Log(data.effect);
 
         Action[] Attacks = {
-        () => DamageEnemys(data.targets, data.number, data.effect),
+        () => DamageEnemys(data.targets, data.number, data.unittype ,data.effect),
         () => BuffUnits(data.target, data.number),
-        () => DamageEnemy(data.target, data.number, data.effect)
+        () => DamageEnemy(data.target, data.number, data.unittype ,data.effect)
     };
 
    
-        if ()
-        {
+      
             TriggerAnimations(data.animator, data.routinerunner);
             Attacks[data.attackFunction].Invoke();
-        }
-         
+       
     }
 }
