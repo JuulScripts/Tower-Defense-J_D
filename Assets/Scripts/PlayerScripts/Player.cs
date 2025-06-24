@@ -8,8 +8,8 @@ public  class PlayerHandling : MonoBehaviour
 
 public static class Player
 {
-    public static int money = 0;
-        public static int wallhealth = 1000;
+    public static int money = 15;
+     
 
 }
     public static void AddMoney(int addedValue)

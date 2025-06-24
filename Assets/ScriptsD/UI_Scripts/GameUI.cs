@@ -1,6 +1,8 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
+using System.Collections.Generic;
+using System;
 
 public class GameUIManager : MonoBehaviour
 {
@@ -14,23 +16,53 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _timerText;
     [SerializeField] private TextMeshProUGUI _killsText;
 
-    private int _playerMoney = 10;
+    [Header("Units to Place")]
+    [SerializeField] private GameObject[] _unitPrefabs;
+
+    [Header("Upgrade System")]
+    [SerializeField] private Transform _upgradePanel;
+    [SerializeField] private GameObject _upgradeButtonPrefab;
+
+    [Header("Unit Upgrade Sprites")]
+    [SerializeField] private Sprite[] unitSprites;
+    [SerializeField] private string[] unitSpriteNames;
+    [SerializeField] private int[] _upgradeCosts;
+
+    private Dictionary<string, Sprite> unitSpriteDict;
+    private int _playerMoney = 15;
     private int _kills = 0;
     private float _timer = 0f;
+
+    void Awake()
+    {
+        unitSpriteDict = new Dictionary<string, Sprite>();
+        for (int i = 0; i < unitSpriteNames.Length; i++)
+        {
+            if (!unitSpriteDict.ContainsKey(unitSpriteNames[i]))
+            {
+         
+                unitSpriteDict.Add(unitSpriteNames[i], unitSprites[i]);
+        
+            }
+        }
+    }
 
     void Start()
     {
         UpdateTopBar();
         UpdateTowerButtons();
+        PlacementSystem.OnUnitPlaced += OnUnitPlaced;
+        Unit.OnUnitUpgraded += OnUnitUpgraded;
     }
 
     void Update()
     {
-       UpdateTopBar();
+        UpdateTopBar();
     }
 
     void UpdateTopBar()
     {
+        _playerMoney = PlayerHandling.Player.money;
         _moneyText.text = $"[${_playerMoney}]";
         _killsText.text = $"[Kills:{_kills}]";
         _timer += Time.deltaTime;
@@ -53,6 +85,36 @@ public class GameUIManager : MonoBehaviour
         }
     }
 
+    public void TryPlaceUnit(int index)
+    {
+        if (index < 0 || index >= _towerCosts.Length) return;
+
+        int cost = _towerCosts[index];
+        if (_playerMoney >= cost)
+        {
+            _playerMoney -= cost;
+            UpdateTopBar();
+            UpdateTowerButtons();
+
+            GameObject prefabToPlace = _unitPrefabs[index];
+            PlacementSystem.start_placing(prefabToPlace);
+            PlayerHandling.DecreaseMoney(cost);
+        }
+        else
+        {
+            Debug.Log("Niet genoeg geld!");
+        }
+    }
+
+    private void OnUnitPlaced(GameObject unitGO)
+    {
+        Unit unit = unitGO.GetComponent<Unit>();
+        if (unit != null)
+        {
+            RegisterUpgradeButton(unit);
+        }
+    }
+
     string FormatTime(float time)
     {
         int minutes = Mathf.FloorToInt(time / 60f);
@@ -62,14 +124,97 @@ public class GameUIManager : MonoBehaviour
 
     public void AddMoney(int amount)
     {
-        _playerMoney += amount;
         UpdateTopBar();
         UpdateTowerButtons();
+        RefreshUpgradeButtons();
     }
 
     public void AddKill()
     {
         _kills++;
         UpdateTopBar();
+    }
+
+    private void RegisterUpgradeButton(Unit unit)
+    {
+
+        if (unit == null || unit.upgradedunit == null)
+        {
+            Debug.Log($"{unit?.unitName ?? "Unknown unit"} has no further upgrades.");
+            return;
+        }
+
+        GameObject newButtonGO = Instantiate(_upgradeButtonPrefab, _upgradePanel);
+        Button btn = newButtonGO.GetComponent<Button>();
+        TextMeshProUGUI btnText = newButtonGO.GetComponentInChildren<TextMeshProUGUI>();
+        Image btnImage = newButtonGO.GetComponent<Image>();
+
+        string nameKey = unit.unitName;
+       
+        if (unitSpriteDict.TryGetValue(nameKey, out Sprite sprite))
+        {
+            btnImage.sprite = sprite;
+        }
+        else
+        {
+            Debug.LogError($"No sprite found for unit: {nameKey} unit:{unit}");
+        }
+
+        int index = Array.IndexOf(unitSpriteNames, nameKey);
+        int upgradeCost = (index >= 0 && index < _upgradeCosts.Length) ? _upgradeCosts[index] : 0;
+
+        btnText.text = $"Upgrade {nameKey} (${upgradeCost})";
+        btn.interactable = PlayerHandling.Player.money >= upgradeCost;
+
+        btn.onClick.AddListener(() =>
+        {
+            if (unit != null && PlayerHandling.Player.money >= upgradeCost)
+            {
+                PlayerHandling.DecreaseMoney(upgradeCost);
+                unit.Upgrade();
+                Destroy(newButtonGO);
+            }
+            else
+            {
+                Debug.Log("Not enough money to upgrade!");
+            }
+        });
+    }
+
+    public void RefreshUpgradeButtons()
+    {
+        foreach (Transform child in _upgradePanel)
+        {
+            Button btn = child.GetComponent<Button>();
+            TextMeshProUGUI btnText = child.GetComponentInChildren<TextMeshProUGUI>();
+
+            if (btn != null && btnText != null)
+            {
+                string text = btnText.text;
+                int costStart = text.IndexOf("($");
+                int costEnd = text.IndexOf(")", costStart);
+                if (costStart >= 0 && costEnd > costStart)
+                {
+                    string costString = text.Substring(costStart + 2, costEnd - costStart - 2);
+                    if (int.TryParse(costString, out int cost))
+                    {
+                        btn.interactable = PlayerHandling.Player.money >= cost;
+                    }
+                }
+            }
+        }
+    }
+    private void OnUnitUpgraded(GameObject upgradedUnitGO)
+    {
+        Unit upgradedUnit = upgradedUnitGO.GetComponent<Unit>();
+        if (upgradedUnit != null)
+        {
+            print(upgradedUnit);
+            RegisterUpgradeButton(upgradedUnit);
+        }
+    }
+    private void OnDestroy()
+    {
+        Unit.OnUnitUpgraded -= OnUnitUpgraded;
     }
 }

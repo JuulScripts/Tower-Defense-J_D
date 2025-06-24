@@ -7,23 +7,25 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public class UnitBehaviour : MonoBehaviour
 {
-   
 
-  private static void DamageEnemy( GameObject target, float damage , Unit.UnitTypes unit ,UnityEvent effect = null)
+
+    private static void DamageEnemy(GameObject target, float damage, Unit.UnitTypes unit, UnityEvent effect = null)
     {
-      
-        if (target != null) {
-          
-        Enemy enemy = target.GetComponent<Enemy>();
-            if (enemy.enemytype == Enemy.EnemyTypes.None || unit == Unit.UnitTypes.Special) {
-                if (effect != null && effect.GetPersistentEventCount() == 0)
+
+        if (target != null)
+        {
+
+            Enemy enemy = target.GetComponent<Enemy>();
+            if (enemy.enemytype == Enemy.EnemyTypes.None || unit == Unit.UnitTypes.Special)
+            {
+                if (effect != null && effect.GetPersistentEventCount() ==  0 && target != null)
                 {
                     enemy.DecreaseHealth(damage);
                 }
-        }
+            }
         }
     }
-    private static void DamageEnemys(List<GameObject> targets, float damage,Unit.UnitTypes unit ,UnityEvent effect = null)
+    private static void DamageEnemys(List<GameObject> targets, float damage, Unit.UnitTypes unit, UnityEvent effect = null)
     {
         for (int i = 0; i < targets.Count; i++)
         {
@@ -35,7 +37,7 @@ public class UnitBehaviour : MonoBehaviour
                 Enemy enemy = target.GetComponent<Enemy>();
                 if (enemy.enemytype == Enemy.EnemyTypes.None || unit == Unit.UnitTypes.Special)
                 {
-                    if (effect != null && effect.GetPersistentEventCount() == 0)
+                    if (effect != null && effect.GetPersistentEventCount() == 0 && target != null)
                     {
                         enemy.DecreaseHealth(damage);
                         print(target.name);
@@ -48,7 +50,8 @@ public class UnitBehaviour : MonoBehaviour
     private static void BuffUnits(GameObject target, float multiplier)
     {
 
-        if (target  != null) {
+        if (target != null)
+        {
             if (target.CompareTag("Unit"))
             {
                 Unit unit = target.GetComponent<Unit>();
@@ -56,26 +59,30 @@ public class UnitBehaviour : MonoBehaviour
             }
         }
     }
-    private static void TriggerAnimations(Animator[] animators, MonoBehaviour routinerunner)
+    private static void TriggerAnimations(Animator[] animators)
     {
+        if (animators == null || animators.Length == 0)
+        {
+            Debug.LogWarning("No animators provided.");
+            return;
+        }
+
         foreach (Animator animator in animators)
         {
-            Debug.Log("isAttacking: " + animator.GetBool("Attack"));
-         
-         
-            AnimationHandler.Trigger("Attack",animator,  routinerunner);
+            if (animator == null)
+            {
+                Debug.LogError("Animator is null in array!");
+                continue;
+            }
+
+            AnimationHandler.Trigger("Attack", animator);
         }
-     
     }
 
-    private static void CheckEnemyType(Enemy enemy, Unit.UnitTypes unittype)
-    {
-      
-    }
     public static void Attack(UnitParams data)
     {
-     
-        
+
+
         Debug.Log(data.effect);
 
         Action[] Attacks = {
@@ -84,10 +91,10 @@ public class UnitBehaviour : MonoBehaviour
         () => DamageEnemy(data.target, data.number, data.unittype ,data.effect)
     };
 
-   
-      
-            TriggerAnimations(data.animator, data.routinerunner);
-            Attacks[data.attackFunction].Invoke();
-       
+
+
+        TriggerAnimations(data.animator);
+        Attacks[data.attackFunction].Invoke();
+
     }
 }

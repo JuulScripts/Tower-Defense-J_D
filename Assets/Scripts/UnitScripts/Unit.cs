@@ -20,14 +20,18 @@ public class Unit : MonoBehaviour
     private GameObject LookTarget;
     public UnitTypes unitType;
 
-    
+
     [Header("Internal State")]
     [SerializeField, Tooltip("Used to control hit cooldown internally")]
     private bool canhit = true;
     private List<GameObject> targets;
     [Header("Misc")]
-    [SerializeField] private GameObject upgradedunit;
-    
+    [SerializeField] public GameObject upgradedunit;
+    public static event Action<GameObject> OnUnitUpgraded;
+    [Header("Upgrade Metadata")]
+    public string unitName;
+
+
     public enum states
     {
         idle,
@@ -38,7 +42,7 @@ public class Unit : MonoBehaviour
     public enum AttackTypes
     {
         MultiTarget,
-        Heal, 
+        Heal,
         SingleTarget
     }
 
@@ -56,8 +60,8 @@ public class Unit : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-       
-    
+
+
         if (attackType == AttackTypes.SingleTarget && target == null)
         {
             target = other.gameObject;
@@ -71,12 +75,13 @@ public class Unit : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         LookTarget = null;
-   
+
         if (target == other.gameObject)
         {
             target = null;
         }
-        if (targets.Contains(other.gameObject))
+
+        if (targets != null && targets.Contains(other.gameObject))
         {
             targets.Remove(other.gameObject);
         }
@@ -90,10 +95,10 @@ public class Unit : MonoBehaviour
     {
 
 
-        if (other.CompareTag("Enemy") )
+        if (other.CompareTag("Enemy"))
         {
-         
-           
+
+
             if (attackType != AttackTypes.SingleTarget && !targets.Contains(other.gameObject))
             {
                 target = other.gameObject;
@@ -108,20 +113,21 @@ public class Unit : MonoBehaviour
    target,
    targets,
    damage,
-   animators, 
+   animators,
    this,
    unitType,
    Effect
 );
                 UnitBehaviour.Attack(unitParams);
                 StartCoroutine(resethitcooldown());
-            } 
+            }
         }
     }
 
     public void Upgrade()
     {
-        Instantiate(upgradedunit, transform.position, transform.rotation);
+        GameObject newUnit = Instantiate(upgradedunit, transform.position, transform.rotation);
+        OnUnitUpgraded?.Invoke(newUnit);
         Destroy(gameObject);
     }
 
@@ -132,19 +138,19 @@ public class Unit : MonoBehaviour
             foreach (Transform trans in transform)
             {
                 GameObject character = trans.gameObject;
-     
-            Vector3 direction = (target.transform.position - trans.transform.position).normalized;
-            Quaternion targetRotation = Quaternion.LookRotation(direction);
 
-         
-            Vector3 euler = targetRotation.eulerAngles;
-            euler.x = 0f;
-            targetRotation = Quaternion.Euler(euler);
+                Vector3 direction = (target.transform.position - trans.transform.position).normalized;
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
 
-         
-            trans.transform.rotation = Quaternion.Lerp(trans.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-        }
+                Vector3 euler = targetRotation.eulerAngles;
+                euler.x = 0f;
+                targetRotation = Quaternion.Euler(euler);
+
+
+                trans.transform.rotation = Quaternion.Lerp(trans.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+            }
         }
     }
 }

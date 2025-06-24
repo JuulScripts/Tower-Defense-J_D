@@ -110,10 +110,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be58ddb815d3f734db2486dbd05f4329, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 50
+  health: 10
   speed: 5
-  value: 40
-  enemytype: 1
+  value: 5
+  enemytype: 0
   state: 0
 --- !u!114 &113443523756252155
 MonoBehaviour:

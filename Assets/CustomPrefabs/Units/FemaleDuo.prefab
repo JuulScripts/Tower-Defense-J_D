@@ -54,8 +54,10 @@ MonoBehaviour:
   Effect:
     m_PersistentCalls:
       m_Calls: []
+  unitType: 0
   canhit: 1
   upgradedunit: {fileID: 3897441108273686100, guid: cff6e04aca037354889497b32abcfd24, type: 3}
+  unitName: FemaleDuo
 --- !u!136 &8192578625547359413
 CapsuleCollider:
   m_ObjectHideFlags: 0

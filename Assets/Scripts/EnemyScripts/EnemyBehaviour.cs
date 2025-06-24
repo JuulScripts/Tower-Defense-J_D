@@ -15,9 +15,6 @@ public class EnemyBehaviour : MonoBehaviour
     private void Start()
     {
         Enemy = GetComponent<Enemy>();
-        MoveSpeed = Enemy.speed*Time.deltaTime;
-
-
     }
 
     private void MoveToWayPoints()
@@ -40,9 +37,10 @@ public class EnemyBehaviour : MonoBehaviour
             Vector3 direction = Wpos - transform.position;
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            transform.position += direction.normalized * MoveSpeed;
+            transform.position += direction.normalized * Enemy.speed * Time.deltaTime;
 
-        } else if (Enemy.state == Enemy.EnemyStates.Moving && currentindex+1 >= 0 && currentindex+1 < waypoints.Length) {
+        }
+        else if (Enemy.state == Enemy.EnemyStates.Moving && currentindex+1 >= 0 && currentindex+1 < waypoints.Length) {
             currentindex++;
         }
     }
@@ -57,5 +55,9 @@ public class EnemyBehaviour : MonoBehaviour
         MoveToWayPoints();
 
     }
-
+    internal void SetWaypoints(GameObject[] waypoints)
+    {
+        this.waypoints = waypoints;
+        currentindex = 0;
+    }
 }

@@ -3,21 +3,26 @@ using UnityEngine.SceneManagement;
 
 public class Endpoint : MonoBehaviour
 {
-    [SerializeField] private int health = 750;
+    [SerializeField] private int health = 1000;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {
-            health--;
-
-            Destroy(other.gameObject);
-
-            Debug.Log("Endpoint geraakt! Health over: " + health);
-
-            if (health <= 0)
+            Enemy enemy = other.GetComponent<Enemy>();
+            if (enemy != null && !enemy.IsDead)
             {
-                GameOver();
+                int damage = Mathf.CeilToInt(enemy.Health);
+                health -= damage;
+
+                Debug.Log($"Enemy deed {damage} damage. Endpoint health: {health}");
+
+                Destroy(other.gameObject);
+
+                if (health <= 0)
+                {
+                    GameOver();
+                }
             }
         }
     }

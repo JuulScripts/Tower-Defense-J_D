@@ -5,14 +5,15 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float health;
-     public float speed;
+    public float Health => health;
+    public float speed;
     private Animator animator;
     [SerializeField] private int value;
     [Header("Enemy Type")]
-    public EnemyTypes enemytype; 
-    private bool isdead = false;
+    public EnemyTypes enemytype;
+    private bool isdead = false; 
+    public bool IsDead => isdead;
 
-   
     public enum EnemyTypes
     {
         None, 
@@ -30,6 +31,8 @@ public class Enemy : MonoBehaviour
         move();
     }
     public EnemyStates state = EnemyStates.Idle;
+
+
     public void DecreaseHealth(float amount)
     {
         if (!isdead)
@@ -52,13 +55,18 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator DeleteEnemy()
     {
-       
-          yield return new WaitForSeconds(AnimationHandler.GetWaitTime(animator)+0.5f);
-   
-        PlayerHandling.Player.money += value;
+        yield return new WaitForSeconds(AnimationHandler.GetWaitTime(animator) + 0.5f);
+
+        GameUIManager uiManager = FindFirstObjectByType<GameUIManager>();
+        if (uiManager != null)
+        {
+            uiManager.AddMoney(value);
+            uiManager.AddKill(); 
+        }
+
+        PlayerHandling.AddMoney(value);
+
         Destroy(gameObject);
-
-
     }
     public void move()
     {
