@@ -80,30 +80,24 @@ public class PlacementSystem : MonoBehaviour
     private void update_placement()
     {
         Vector2 mousePosition = Mouse.current.position.ReadValue();
+        Ray ray = main_camera.ScreenPointToRay(mousePosition);
+        RaycastHit hit;
 
-        float cameraHeight = main_camera.transform.position.y;
-
-       
-        Vector3 screenPoint = new Vector3(mousePosition.x, mousePosition.y, cameraHeight);
-
-
-        Vector3 worldPoint = main_camera.ScreenToWorldPoint(screenPoint);
-
-      
-        Vector3 NewPosition = new Vector3(worldPoint.x, 0f, worldPoint.z);
-
-        ghost_object.transform.position = NewPosition;
-
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (Physics.Raycast(ray, out hit))
         {
-            if (Mouse.current.leftButton.wasPressedThisFrame)
+
+            ghost_object.transform.position = hit.point;
+
+            if (hit.collider.CompareTag("placable"))
             {
-                GameObject placedUnit = Instantiate(original_prefab, NewPosition, Quaternion.identity);
-                OnUnitPlaced?.Invoke(placedUnit); 
-                Destroy(ghost_object);
-                ghost_object = null;
-        
-                is_placing = false;
+                if (Mouse.current.leftButton.wasPressedThisFrame)
+                {
+                    GameObject placedUnit = Instantiate(original_prefab, hit.point, Quaternion.identity);
+                    OnUnitPlaced?.Invoke(placedUnit);
+                    Destroy(ghost_object);
+                    ghost_object = null;
+                    is_placing = false;
+                }
             }
         }
     }
