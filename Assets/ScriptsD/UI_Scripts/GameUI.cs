@@ -15,6 +15,9 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _moneyText;
     [SerializeField] private TextMeshProUGUI _timerText;
     [SerializeField] private TextMeshProUGUI _killsText;
+    
+    [Header("Level Complete UI")]
+    [SerializeField] private GameObject _levelCompleteText;
 
     [Header("Units to Place")]
     [SerializeField] private GameObject[] _unitPrefabs;
@@ -58,6 +61,8 @@ public class GameUIManager : MonoBehaviour
     void Update()
     {
         UpdateTopBar();
+        UpdateTowerButtons();
+        RefreshUpgradeButtons();
     }
 
     void UpdateTopBar()
@@ -216,5 +221,12 @@ public class GameUIManager : MonoBehaviour
     private void OnDestroy()
     {
         Unit.OnUnitUpgraded -= OnUnitUpgraded;
+    }
+    public void ShowLevelCompleteMessage()
+    {
+        if (_levelCompleteText != null)
+        {
+            _levelCompleteText.SetActive(true);
+        }
     }
 }

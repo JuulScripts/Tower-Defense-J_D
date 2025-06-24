@@ -210,7 +210,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7946101136783984428, guid: 4da5af554382a674ea5140144a196006, type: 3}
       propertyPath: m_Radius
-      value: 3
+      value: 3.3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

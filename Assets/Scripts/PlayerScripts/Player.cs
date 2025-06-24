@@ -2,16 +2,16 @@ using UnityEngine;
 using System.Collections.Generic;
 
 
-public  class PlayerHandling : MonoBehaviour
+public class PlayerHandling : MonoBehaviour
 {
 
 
-public static class Player
-{
-    public static int money = 15;
-     
+    public static class Player
+    {
+        public static int money = 15;
 
-}
+
+    }
     public static void AddMoney(int addedValue)
     {
         Player.money += addedValue;
@@ -20,5 +20,9 @@ public static class Player
     public static void DecreaseMoney(int decreasedValue)
     {
         Player.money -= decreasedValue;
+    }
+    public static void ResetMoney(int newAmount)
+    {
+        Player.money = newAmount;
     }
 }

@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemySpawner : MonoBehaviour
 {
+    private GameUIManager uiManager;
     [System.Serializable]
     public struct Wave
     {
@@ -15,11 +17,14 @@ public class EnemySpawner : MonoBehaviour
     public Transform spawnPoint;
     public GameObject[] waypoints;
     public List<Wave> waves = new List<Wave>();
+    private bool allWavesSpawned = false;
+    private bool transitioningToNextLevel = false;
 
     private int currentWave = 0;
 
     private void Start()
     {
+        uiManager = FindFirstObjectByType<GameUIManager>();
         StartSpawning();
     }
 
@@ -50,6 +55,39 @@ public class EnemySpawner : MonoBehaviour
 
             currentWave++;
             yield return new WaitForSeconds(8f);
+        }
+        allWavesSpawned = true;
+    }
+    private void Update()
+    {
+        if (allWavesSpawned && !transitioningToNextLevel)
+        {
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            if (enemies.Length == 0)
+            {
+                transitioningToNextLevel = true;
+                if (uiManager != null)
+                {
+                    uiManager.ShowLevelCompleteMessage();
+                }
+                StartCoroutine(LoadNextLevelDelayed(3f)); 
+            }
+        }
+    }
+    private IEnumerator LoadNextLevelDelayed(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        string currentScene = SceneManager.GetActiveScene().name;
+
+        if (currentScene == "Level1Scene")
+        {
+            PlayerHandling.ResetMoney(30);
+            SceneManager.LoadScene("Level2Scene");
+        }
+        else if (currentScene == "Level2Scene")
+        {
+            SceneManager.LoadScene("StartScene");
         }
     }
 }
