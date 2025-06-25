@@ -4,48 +4,71 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using static UnityEngine.EventSystems.EventTrigger;
+using static UnityEngine.Rendering.DebugUI;
 
 public class UnitBehaviour : MonoBehaviour
 {
 
-
-    private static void DamageEnemy(GameObject target, float damage, Unit.UnitTypes unit, UnityEvent effect = null)
+    public GameObject currenttarget;
+    public GameObject[] currenttargets;
+    private static GameObject DamageEnemy(GameObject target, float damage, Unit.UnitTypes unit, UnityEvent<GameObject> effect = null)
     {
 
         if (target != null)
         {
-
+        
             Enemy enemy = target.GetComponent<Enemy>();
             if (enemy.enemytype == Enemy.EnemyTypes.None || unit == Unit.UnitTypes.Special)
             {
-                if (effect != null && effect.GetPersistentEventCount() ==  0 && target != null)
-                {
-                    enemy.DecreaseHealth(damage);
+                enemy.DecreaseHealth(damage);
+                if (effect != null && effect.GetPersistentEventCount() >  0 && target != null)
+                    {
+                    string funcname = effect.GetPersistentMethodName(0);
+                    Action<GameObject> listener = EffectFunctions.GetFunctionViaString(funcname);
+                    if (listener != null)
+                    {
+                        UnityEvent<GameObject> NewEvent = new UnityEvent<GameObject> { };
+                        NewEvent.AddListener(new UnityAction<GameObject>(listener));
+                        NewEvent.Invoke(target);
+                    }
                 }
             }
+            return target;
         }
+        return null;
     }
-    private static void DamageEnemys(List<GameObject> targets, float damage, Unit.UnitTypes unit, UnityEvent effect = null)
+    private static void DamageEnemys(List<GameObject> targets, float damage, Unit.UnitTypes unit, UnityEvent<GameObject> effect = null)
     {
         for (int i = 0; i < targets.Count; i++)
         {
             GameObject target = targets[i];
             // Do something with target
-
+            print(targets);
             if (target != null)
             {
                 Enemy enemy = target.GetComponent<Enemy>();
                 if (enemy.enemytype == Enemy.EnemyTypes.None || unit == Unit.UnitTypes.Special)
                 {
-                    if (effect != null && effect.GetPersistentEventCount() == 0 && target != null)
+                    enemy.DecreaseHealth(damage);
+                    if (effect != null && effect.GetPersistentEventCount() > 0 && target != null)
                     {
-                        enemy.DecreaseHealth(damage);
-                        print(target.name);
+                        string funcname = effect.GetPersistentMethodName(0);
+                        Action<GameObject> listener = EffectFunctions.GetFunctionViaString(funcname);
+                        if (listener != null)
+                        {
+                            UnityEvent<GameObject> NewEvent = new UnityEvent<GameObject> { };
+                            NewEvent.AddListener(new UnityAction<GameObject>(listener));
+                            NewEvent.Invoke(target);
+                        }
+                  
+                    
+                 
+                        
                     }
                 }
             }
-        }
 
+        }
     }
     private static void BuffUnits(GameObject target, float multiplier)
     {
@@ -79,22 +102,40 @@ public class UnitBehaviour : MonoBehaviour
         }
     }
 
+    private static void SetAnimators(GameObject[] targets)
+    {
+        foreach (GameObject target in targets)
+        {
+
+            target.GetComponent<Animator>().SetInteger("State", (int)target.GetComponent<Enemy>().state);
+        }
+    }
+    private static void SetAnimator(GameObject target)
+    {
+            target.GetComponent<Animator>().SetInteger("State", (int)target.GetComponent<Enemy>().state);   
+    }
+
+
     public static void Attack(UnitParams data)
     {
 
 
-        Debug.Log(data.effect);
 
-        Action[] Attacks = {
-        () => DamageEnemys(data.targets, data.number, data.unittype ,data.effect),
-        () => BuffUnits(data.target, data.number),
-        () => DamageEnemy(data.target, data.number, data.unittype ,data.effect)
-    };
-
+            Func<object>[] Attacks = {
+                  () => { DamageEnemys(data.targets, data.number, data.unittype, data.effect); return null; },
+                () => { BuffUnits(data.target, data.number); return null; },
+                () => DamageEnemy(data.target, data.number, data.unittype, data.effect)
+        };
 
 
-        TriggerAnimations(data.animator);
-        Attacks[data.attackFunction].Invoke();
+            TriggerAnimations(data.animator);
+           object returnedvalue = Attacks[data.attackFunction].Invoke();
 
+        if (returnedvalue == null)
+        { 
+            return;
+        }
+        if (returnedvalue is GameObject[]) SetAnimators((GameObject[])returnedvalue);
+        if (returnedvalue is GameObject) SetAnimator((GameObject)returnedvalue);
     }
-}
+    }

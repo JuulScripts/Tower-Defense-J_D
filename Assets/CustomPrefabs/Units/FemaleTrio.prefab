@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7623978142938302096}
   - component: {fileID: 4381388405968439937}
   - component: {fileID: 3419411055198583236}
+  - component: {fileID: 1993622417056095291}
   m_Layer: 0
   m_Name: FemaleTrio
   m_TagString: Untagged
@@ -49,12 +50,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackType: 0
-  damage: 30
-  hitcooldown: 1
+  damage: 15
+  hitcooldown: 5
   rotationSpeed: 7
   Effect:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1993622417056095291}
+        m_TargetAssemblyTypeName: EffectFunctions, Assembly-CSharp
+        m_MethodName: Poison
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   unitType: 0
   canhit: 1
   upgradedunit: {fileID: 0}
@@ -82,6 +95,18 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1993622417056095291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3897441108273686100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d225b003e04c2b744b585e967fbe7074, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4065470890872486161
 PrefabInstance:
   m_ObjectHideFlags: 0
