@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using static UnityEngine.EventSystems.EventTrigger;
+using static UnityEngine.UI.CanvasScaler;
 
 public class Unit : MonoBehaviour
 {
@@ -15,12 +17,11 @@ public class Unit : MonoBehaviour
     [SerializeField] private float rotationSpeed;
     private Animator[] animators;
     [Header("Targeting & Effects")]
-    [SerializeField] private UnityEvent Effect;
+    [SerializeField] private UnityEvent<GameObject> Effect;
     private GameObject target;
     private GameObject LookTarget;
     public UnitTypes unitType;
-
-
+    EffectFunctions effectHandler;
     [Header("Internal State")]
     [SerializeField, Tooltip("Used to control hit cooldown internally")]
     private bool canhit = true;
@@ -56,6 +57,8 @@ public class Unit : MonoBehaviour
     {
         animators = GetComponentsInChildren<Animator>();
         targets = new List<GameObject>();
+        effectHandler =  GetComponent<EffectFunctions>();
+        effectHandler.setunit(this);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -95,7 +98,7 @@ public class Unit : MonoBehaviour
     {
 
 
-        if (other.CompareTag("Enemy"))
+        if (other.CompareTag("Enemy") && other.GetComponent<Enemy>().enemytype == Enemy.EnemyTypes.None || unitType == Unit.UnitTypes.Special)
         {
 
 
@@ -110,7 +113,7 @@ public class Unit : MonoBehaviour
                 canhit = false;
                 UnitParams unitParams = new UnitParams(
    (int)attackType,
-   target,
+   target,  
    targets,
    damage,
    animators,

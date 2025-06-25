@@ -9,10 +9,10 @@ public class UnitParams
     public List<GameObject> targets;
     public float number;
     public Animator[] animator;
-    public UnityEvent effect;
+    public UnityEvent<GameObject> effect;
     public MonoBehaviour routinerunner;
     public Unit.UnitTypes unittype;
-    public UnitParams(int attackFunction, GameObject target, List<GameObject> targets, float number, Animator[] animator, MonoBehaviour routinerunner, Unit.UnitTypes unittype, UnityEvent effect = null)
+    public UnitParams(int attackFunction, GameObject target, List<GameObject> targets, float number, Animator[] animator, MonoBehaviour routinerunner, Unit.UnitTypes unittype, UnityEvent<GameObject> effect = null)
     {
         this.attackFunction = attackFunction;
         this.target = target;

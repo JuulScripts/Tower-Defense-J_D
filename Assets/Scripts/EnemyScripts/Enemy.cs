@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -11,7 +12,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int value;
     [Header("Enemy Type")]
     public EnemyTypes enemytype;
-    private bool isdead = false; 
+    private bool isdead = false;
+    public List<EnemyStates> enemysubstate = new List<EnemyStates> { };
     public bool IsDead => isdead;
 
     public enum EnemyTypes
@@ -24,7 +26,12 @@ public class Enemy : MonoBehaviour
         Moving,
         Attacking,
         Idle,
+        poisoned,
+        stunned
     }
+
+
+    
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -71,6 +78,7 @@ public class Enemy : MonoBehaviour
     public void move()
     {
         state = EnemyStates.Moving;
+  
         print((int)state);
         animator.SetInteger("State", (int)state);
     }
