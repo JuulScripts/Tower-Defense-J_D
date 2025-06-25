@@ -57,6 +57,7 @@ public class Enemy : MonoBehaviour
         isdead = true;
         state = Enemy.EnemyStates.Idle;
         AnimationHandler.SetTrueBool("IsDead", animator);
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.enemyDeathSound);
         StartCoroutine(DeleteEnemy());
     }
 

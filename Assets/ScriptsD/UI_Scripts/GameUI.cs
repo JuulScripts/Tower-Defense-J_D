@@ -31,10 +31,14 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private string[] unitSpriteNames;
     [SerializeField] private int[] _upgradeCosts;
 
+    [Header("Endpoint UI")]
+    [SerializeField] private TextMeshProUGUI _endpointHpText;
+
     private Dictionary<string, Sprite> unitSpriteDict;
     private int _playerMoney = 15;
     private int _kills = 0;
     private float _timer = 0f;
+    private Endpoint _endpoint;
 
     void Awake()
     {
@@ -52,6 +56,8 @@ public class GameUIManager : MonoBehaviour
 
     void Start()
     {
+        _endpoint = FindFirstObjectByType<Endpoint>();
+
         UpdateTopBar();
         UpdateTowerButtons();
         PlacementSystem.OnUnitPlaced += OnUnitPlaced;
@@ -72,6 +78,12 @@ public class GameUIManager : MonoBehaviour
         _killsText.text = $"[Kills:{_kills}]";
         _timer += Time.deltaTime;
         _timerText.text = "Time: " + FormatTime(_timer);
+        
+        if (_endpoint != null)
+        {
+            _endpointHpText.text = $"Endpoint HP: {_endpoint.CurrentHealth}";
+        }
+
     }
 
     void UpdateTowerButtons()
@@ -104,6 +116,7 @@ public class GameUIManager : MonoBehaviour
             GameObject prefabToPlace = _unitPrefabs[index];
             PlacementSystem.start_placing(prefabToPlace);
             PlayerHandling.DecreaseMoney(cost);
+            SoundManager.Instance.PlaySFX(SoundManager.Instance.purchaseSound);
         }
         else
         {
@@ -116,6 +129,7 @@ public class GameUIManager : MonoBehaviour
         Unit unit = unitGO.GetComponent<Unit>();
         if (unit != null)
         {
+            SoundManager.Instance.PlaySFX(SoundManager.Instance.placementSound);
             RegisterUpgradeButton(unit);
         }
     }
@@ -132,6 +146,7 @@ public class GameUIManager : MonoBehaviour
         UpdateTopBar();
         UpdateTowerButtons();
         RefreshUpgradeButtons();
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.coinSound);
     }
 
     public void AddKill()
@@ -176,6 +191,7 @@ public class GameUIManager : MonoBehaviour
             if (unit != null && PlayerHandling.Player.money >= upgradeCost)
             {
                 PlayerHandling.DecreaseMoney(upgradeCost);
+                SoundManager.Instance.PlaySFX(SoundManager.Instance.upgradeSound);
                 unit.Upgrade();
                 Destroy(newButtonGO);
             }
@@ -226,6 +242,7 @@ public class GameUIManager : MonoBehaviour
     {
         if (_levelCompleteText != null)
         {
+            SoundManager.Instance.PlaySFX(SoundManager.Instance.levelCompleteSound);
             _levelCompleteText.SetActive(true);
         }
     }

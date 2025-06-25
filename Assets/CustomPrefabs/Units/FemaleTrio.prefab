@@ -50,8 +50,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackType: 0
-  damage: 15
-  hitcooldown: 5
+  damage: 52
+  hitcooldown: 3
   rotationSpeed: 7
   Effect:
     m_PersistentCalls:

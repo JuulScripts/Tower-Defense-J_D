@@ -13,9 +13,14 @@ public class MainMenuUI : MonoBehaviour
     [Header("Panels")]
     [SerializeField] private GameObject _mainMenuPanel;
     [SerializeField] private GameObject _optionsPanel;
+    [Header("Result Messages")]
+    [SerializeField] private GameObject _winMessage;
+    [SerializeField] private GameObject _lossMessage;
 
     void Start()
     {
+        ShowEndResultIfAvailable();
+
         _startButton.onClick.AddListener(StartGame);
         _optionsButton.onClick.AddListener(OpenOptions);
         _quitButton.onClick.AddListener(QuitGame);
@@ -50,5 +55,26 @@ public class MainMenuUI : MonoBehaviour
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
+    }
+    void ShowEndResultIfAvailable()
+    {
+        if (GameResult.GameFinished)
+        {
+            if (GameResult.PlayerWon)
+            {
+                if (_winMessage != null) _winMessage.SetActive(true);
+            }
+            else
+            {
+                if (_lossMessage != null) _lossMessage.SetActive(true);
+            }
+
+            GameResult.Reset();
+        }
+        else
+        {
+            if (_winMessage != null) _winMessage.SetActive(false);
+            if (_lossMessage != null) _lossMessage.SetActive(false);
+        }
     }
 }

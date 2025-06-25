@@ -213,6 +213,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2954116936237951273, guid: 4da5af554382a674ea5140144a196006, type: 3}
+      propertyPath: hitcooldown
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2954116936237951273, guid: 4da5af554382a674ea5140144a196006, type: 3}
       propertyPath: upgradedunit
       value: 
       objectReference: {fileID: 1106023336671179847, guid: 400d41e7bcb3272489c5055ee2e13cd4, type: 3}
@@ -260,4 +264,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d225b003e04c2b744b585e967fbe7074, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 0}

@@ -137,5 +137,7 @@ public class UnitBehaviour : MonoBehaviour
         }
         if (returnedvalue is GameObject[]) SetAnimators((GameObject[])returnedvalue);
         if (returnedvalue is GameObject) SetAnimator((GameObject)returnedvalue);
+
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.attackSound);
     }
     }

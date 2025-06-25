@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackType: 2
-  damage: 20
+  damage: 36
   hitcooldown: 1.5
   rotationSpeed: 5
   Effect:
@@ -94,7 +94,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d225b003e04c2b744b585e967fbe7074, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 0}
 --- !u!1001 &2267414793496666446
 PrefabInstance:
   m_ObjectHideFlags: 0

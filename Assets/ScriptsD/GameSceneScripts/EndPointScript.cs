@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 public class Endpoint : MonoBehaviour
 {
     [SerializeField] private int health = 1000;
+    public int CurrentHealth => health;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -18,6 +19,7 @@ public class Endpoint : MonoBehaviour
                 Debug.Log($"Enemy deed {damage} damage. Endpoint health: {health}");
 
                 Destroy(other.gameObject);
+                SoundManager.Instance.PlaySFX(SoundManager.Instance.endpointDamageSound);
 
                 if (health <= 0)
                 {
@@ -29,7 +31,9 @@ public class Endpoint : MonoBehaviour
 
     private void GameOver()
     {
+        SoundManager.Instance.PlaySFX(SoundManager.Instance.lossSound);
         Debug.Log("Game Over!");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        GameResult.SetResult(false);
+        SceneManager.LoadScene("StartScene");
     }
 }

@@ -87,6 +87,8 @@ public class EnemySpawner : MonoBehaviour
         }
         else if (currentScene == "Level2Scene")
         {
+            GameResult.SetResult(true);
+            SoundManager.Instance.PlaySFX(SoundManager.Instance.victorySound);
             SceneManager.LoadScene("StartScene");
         }
     }
