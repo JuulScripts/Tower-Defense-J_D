@@ -8,7 +8,7 @@ In this project you're tasked with strategically placing defense units to stop t
 
 🎮 Gameplay and towers
 Here's some basic gameplay
-![Function Dictionary Setup](Images/Gameplay.png)  
+![Gameplay](Images/Gameplay.png)  
 
 About the towers:
 
@@ -16,22 +16,26 @@ Base tower (Hank),
 Hank is the starting tower, hes a single target unit and does 10 damage and has a cooldown of 1.4 in his base and punches them, 
 Upgrade 1: Damage 20, Cooldown 1.5 
 Upgrade 2: Damage 35, Cooldown 1.8
-![Function Dictionary Setup](Assets/Screenschots/BaseTower%20Variant.png)  
+
+![Tower](Assets/Screenschots/BaseTower%20Variant.png)  
+
 BatMan,
 Well obviously we made a joke of his name being batman because he has well a bat, hes a multi target unit that sweeps with his bat and does 15 damage has a 1.5 cooldown.
 Upgrade 1: Damage 30, Cooldown 2
 Upgrade 2: Damage 45, Cooldown 2
-![Function Dictionary Setup](Assets/Screenschots/BatMan%20Variant.png)  
+
+![Tower](Assets/Screenschots/BatMan%20Variant.png)  
 Female (Sandra) is a speicial kind of unit, in her base form she has no special attributes and is single target (18 damage 1.5 cooldown) but in her second upgrade she becomes multi target and has a poisoning effect
 
 Upgrade 1: Damage 36, Cooldown 1.5
 Upgrade 2: Damage 52 (+ poison damage), Cooldown 3
-![Function Dictionary Setup](Assets/Screenschots/Female.png)  
+
+![Tower](Assets/Screenschots/Female.png)  
 Police officer (Greg) is a single target unit BUT hes the only unit that can deal damage to "special" enemies (we took insperation from the camo baloons in bloons), special enemys dont get recognized by any other units other then greg, so in the end game greg is very valuable. Damage 34 cooldown 1 in gregs final upgrade hes also able to stun targets
 
 Upgrade 1: Damage 68, Cooldown 2
 Upgrade 2: Damage 100, Cooldown 2
-![Function Dictionary Setup](Assets/Screenschots/PoliceOfficer%20Variant.png)  
+![Tower](Assets/Screenschots/PoliceOfficer%20Variant.png)  
 
 🛠️ Easy-to-Extend Unit System (For Developers)
 The game includes a modular system for creating and customizing new towers, designed with flexibility in mind. Here’s how you can add your own towers:
@@ -39,13 +43,17 @@ The game includes a modular system for creating and customizing new towers, desi
 🔧 How to Add a New Unit using the system
 Start with the TowerHolder prefab – drag in your own model or rig.
 
-If the tower has custom behavior, add an EffectScript to the TowerHolder.
+If the tower has custom behavior, add an [EffectsScript](https://github.com/JuulScripts/Tower-Defense-J_D/blob/main/Assets/Scripts/UnitScripts/EffectFunctions.cs) (located in [Assets/Scripts/UnitScripts](https://github.com/JuulScripts/Tower-Defense-J_D/tree/main/Assets/Scripts/UnitScripts)) 
+to the TowerHolder:
+![Function Dictionary Setup](Images/Effect.png)  
 
 In the Inspector, go to the Effects & Targeting section.
+Link the tower holder as the script in the added targeting & events event.
 
-Link the GameObject that should receive the event.
+![Function Dictionary Setup](Images/AddScriptEffect.png) 
+Link the tower holder as the script in the added targeting & events event.
 
-Select which function should be called when the tower attacks.
+Select which function should be called when the tower attacks (choose EffectsScript).
 
 This setup allows you to rapidly prototype new towers without writing additional scripts for every unique action.
 
