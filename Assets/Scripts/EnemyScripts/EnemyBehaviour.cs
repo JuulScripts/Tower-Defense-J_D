@@ -17,7 +17,7 @@ public class EnemyBehaviour : MonoBehaviour
         Enemy = GetComponent<Enemy>();
     }
 
-    private void MoveToWayPoints()
+    private void MoveToWayPoints() // Moves the enemy toward the current waypoint and rotates to face it
     {
         GameObject waypoint;
       
@@ -45,7 +45,7 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
   
-    public void Upgrade()
+    public void Upgrade() // Placeholder for future upgrade logic
     {
 
     }
@@ -55,7 +55,7 @@ public class EnemyBehaviour : MonoBehaviour
         MoveToWayPoints();
 
     }
-    internal void SetWaypoints(GameObject[] waypoints)
+    internal void SetWaypoints(GameObject[] waypoints) // Sets the path waypoints and resets index to start
     {
         this.waypoints = waypoints;
         currentindex = 0;

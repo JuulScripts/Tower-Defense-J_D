@@ -11,7 +11,7 @@ public class UnitBehaviour : MonoBehaviour
 
     public GameObject currenttarget;
     public GameObject[] currenttargets;
-    private static GameObject DamageEnemy(GameObject target, float damage, Unit.UnitTypes unit, UnityEvent<GameObject> effect = null)
+    private static GameObject DamageEnemy(GameObject target, float damage, Unit.UnitTypes unit, UnityEvent<GameObject> effect = null) // Damages a single enemy and optionally applies a status effect.
     {
 
         if (target != null)
@@ -37,7 +37,7 @@ public class UnitBehaviour : MonoBehaviour
         }
         return null;
     }
-    private static void DamageEnemys(List<GameObject> targets, float damage, Unit.UnitTypes unit, UnityEvent<GameObject> effect = null)
+    private static void DamageEnemys(List<GameObject> targets, float damage, Unit.UnitTypes unit, UnityEvent<GameObject> effect = null) // Damages multiple enemies and optionally applies a status effect to each.
     {
         for (int i = 0; i < targets.Count; i++)
         {
@@ -70,7 +70,7 @@ public class UnitBehaviour : MonoBehaviour
 
         }
     }
-    private static void BuffUnits(GameObject target, float multiplier)
+    private static void BuffUnits(GameObject target, float multiplier) // Increases the damage of a unit by a given multiplier.
     {
 
         if (target != null)
@@ -82,7 +82,7 @@ public class UnitBehaviour : MonoBehaviour
             }
         }
     }
-    private static void TriggerAnimations(Animator[] animators)
+    private static void TriggerAnimations(Animator[] animators) // Triggers the "Attack" animation on a set of animators.
     {
         if (animators == null || animators.Length == 0)
         {
@@ -102,7 +102,7 @@ public class UnitBehaviour : MonoBehaviour
         }
     }
 
-    private static void SetAnimators(GameObject[] targets)
+    private static void SetAnimators(GameObject[] targets) //  Updates animator states to match the current state of associated enemies.
     {
         foreach (GameObject target in targets)
         {
@@ -110,13 +110,13 @@ public class UnitBehaviour : MonoBehaviour
             target.GetComponent<Animator>().SetInteger("State", (int)target.GetComponent<Enemy>().state);
         }
     }
-    private static void SetAnimator(GameObject target)
+    private static void SetAnimator(GameObject target) // Updates a single animator’s state to match its enemy’s state.
     {
             target.GetComponent<Animator>().SetInteger("State", (int)target.GetComponent<Enemy>().state);   
     }
 
 
-    public static void Attack(UnitParams data)
+    public static void Attack(UnitParams data) //  Executes an attack based on unit parameters, including applying damage, buffs, effects, and triggering animations and sound.
     {
 
 

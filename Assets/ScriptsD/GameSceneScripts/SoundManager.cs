@@ -37,26 +37,26 @@ public class SoundManager : MonoBehaviour
         }
     }
 
-    public void PlaySFX(AudioClip clip)
+    public void PlaySFX(AudioClip clip) // Plays a sound effect if the clip is not null and the audio source is assigned
     {
         if (clip != null && sfxSource != null)
         {
             sfxSource.PlayOneShot(clip);
         }
     }
-    public void SetVolume(float value)
+    public void SetVolume(float value) // Sets the volume, clamps it between 0 and 1, saves it to PlayerPrefs, and applies it to the audio source
     {
         volume = Mathf.Clamp01(value);
         PlayerPrefs.SetFloat("Volume", volume);
         ApplyVolume();
     }
 
-    public float GetVolume()
+    public float GetVolume() // Returns the current volume level
     {
         return volume;
     }
 
-    private void ApplyVolume()
+    private void ApplyVolume() // Applies the saved volume to the audio source
     {
         if (sfxSource != null)
             sfxSource.volume = volume;

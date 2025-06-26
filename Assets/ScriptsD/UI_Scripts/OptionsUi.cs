@@ -14,12 +14,12 @@ public class Options : MonoBehaviour
         SoundManager.Instance.SetVolume(savedVolume);
     }
 
-    private void SetVolume(float value)
+    private void SetVolume(float value) // Sets the volume in SoundManager and saves it to PlayerPrefs
     {
         SoundManager.Instance.SetVolume(value);
     }
 
-    private void OnDestroy()
+    private void OnDestroy() // Unsubscribes from the slider's value change event to prevent memory leaks
     {
         _volumeSlider.onValueChanged.RemoveListener(SetVolume);
     }
