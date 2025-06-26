@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class SoundManager : MonoBehaviour
 {
@@ -19,12 +20,16 @@ public class SoundManager : MonoBehaviour
     public AudioClip lossSound;
     public AudioClip victorySound;
 
+    private float volume = 1f;
+
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); 
+            DontDestroyOnLoad(gameObject);
+            volume = PlayerPrefs.GetFloat("Volume", 1f);
+            ApplyVolume();
         }
         else
         {
@@ -38,5 +43,22 @@ public class SoundManager : MonoBehaviour
         {
             sfxSource.PlayOneShot(clip);
         }
+    }
+    public void SetVolume(float value)
+    {
+        volume = Mathf.Clamp01(value);
+        PlayerPrefs.SetFloat("Volume", volume);
+        ApplyVolume();
+    }
+
+    public float GetVolume()
+    {
+        return volume;
+    }
+
+    private void ApplyVolume()
+    {
+        if (sfxSource != null)
+            sfxSource.volume = volume;
     }
 }

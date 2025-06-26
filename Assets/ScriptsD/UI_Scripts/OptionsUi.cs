@@ -7,16 +7,16 @@ public class Options : MonoBehaviour
 
     private void Start()
     {
-        _volumeSlider.value = PlayerPrefs.GetFloat("Volume", 1f);
-        AudioListener.volume = _volumeSlider.value;
+        float savedVolume = PlayerPrefs.GetFloat("Volume", 1f);
+        _volumeSlider.value = savedVolume;
 
         _volumeSlider.onValueChanged.AddListener(SetVolume);
+        SoundManager.Instance.SetVolume(savedVolume);
     }
 
     private void SetVolume(float value)
     {
-        AudioListener.volume = value;
-        PlayerPrefs.SetFloat("Volume", value);
+        SoundManager.Instance.SetVolume(value);
     }
 
     private void OnDestroy()
