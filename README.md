@@ -71,15 +71,15 @@ Here’s where you could add relevant snippets in your README (or link out to fu
 ### 🖼️ System Overview Screenshots
 
 #### 📂 Function Dictionary & Structure  
-[![Function Dictionary Setup]](Images/SimpleDataBase.png)  
+![Function Dictionary Setup](Images/SimpleDataBase.png)  
 *Shows the structure of the functions and their naming in the simple database.*
 
 #### 🔁 Fetching & Referencing the Function  
-[![Function Fetching Logic]](Images/ConvertToString.png)  
+![Function Dictionary Setup](Images/ConvertToString.png)  
 *Demonstrates how the function is fetched and referenced at runtime.*
 
 #### 🧩 System in Action  
-[![System In Action]](Images/GetString.png)  
+![Function Dictionary Setup](Images/GetString.png)  
 *Shows everything working together.*
 
 💡 Inspiration
