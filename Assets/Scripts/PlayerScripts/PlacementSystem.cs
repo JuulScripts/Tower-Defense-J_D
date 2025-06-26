@@ -13,7 +13,7 @@ public class PlacementSystem : MonoBehaviour
     public static PlacementSystem staticsystem { get; private set; }
     public static Action<GameObject> OnUnitPlaced;
 
-    private void Awake()
+    private void Awake() // Initializes static reference and sets the main camera if not already assigned
     {
         staticsystem = this;
 
@@ -23,7 +23,7 @@ public class PlacementSystem : MonoBehaviour
         }
     }
 
-    public static void start_placing(GameObject prefab)
+    public static void start_placing(GameObject prefab) // Starts placement mode and creates a disabled "ghost" version of the prefab
     {
         if (staticsystem == null || staticsystem.hitbox_prefab == null)
         {
@@ -77,7 +77,7 @@ public class PlacementSystem : MonoBehaviour
         }
     }
 
-    private void update_placement()
+    private void update_placement() // Handles ghost object positioning and final placement when valid
     {
         Vector2 mousePosition = Mouse.current.position.ReadValue();
         Ray ray = main_camera.ScreenPointToRay(mousePosition);

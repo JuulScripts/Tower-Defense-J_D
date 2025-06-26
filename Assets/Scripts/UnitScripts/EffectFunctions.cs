@@ -25,7 +25,7 @@ public class EffectFunctions : MonoBehaviour
     }
     public Unit unit { get; private set; }
 
-     static public Action<GameObject> GetFunctionViaString(string funcname)
+     static public Action<GameObject> GetFunctionViaString(string funcname) // Converts a string to an enum and returns the corresponding function
     {
         if (Enum.TryParse<Functions>(funcname, out Functions result))
         {
@@ -35,12 +35,12 @@ public class EffectFunctions : MonoBehaviour
         return null;
     }
 
-    public void setunit(Unit newunit)
+    public void setunit(Unit newunit) // Assigns the unit to be used by this effect system
     {
         unit = newunit;
     }
 
-    public void Poison(GameObject Target)
+    public void Poison(GameObject Target)  // Applies poison to an enemy if not already poisoned
     {
         Enemy enemy = Target.GetComponent<Enemy>();
 
@@ -51,7 +51,7 @@ public class EffectFunctions : MonoBehaviour
         }
 
     }
-    private IEnumerator ApplyPoison(Enemy enemy, float damagePerTick, float interval, int ticks)
+    private IEnumerator ApplyPoison(Enemy enemy, float damagePerTick, float interval, int ticks)  // Repeatedly damages the enemy over time and removes poison state
     {
       
      
@@ -66,7 +66,7 @@ public class EffectFunctions : MonoBehaviour
         enemy.enemysubstate.Remove(Enemy.EnemyStates.poisoned);
     }
 
-    public void Stun(GameObject target)
+    public void Stun(GameObject target) // Applies stun to an enemy if not already stunned
     {
         print("stunned");
         Enemy enemy = target.GetComponent<Enemy>();
@@ -80,7 +80,7 @@ public class EffectFunctions : MonoBehaviour
        
     }
 
-    private IEnumerator resetstun(Enemy enemy)
+    private IEnumerator resetstun(Enemy enemy) // Resets the enemy's state after a delay, allowing it to move again
     {
         yield return new WaitForSeconds(1);
         enemy.state = Enemy.EnemyStates.Moving;

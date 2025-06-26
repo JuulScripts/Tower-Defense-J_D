@@ -12,16 +12,16 @@ public class PlayerHandling : MonoBehaviour
 
 
     }
-    public static void AddMoney(int addedValue)
+    public static void AddMoney(int addedValue) // Adds money by a specified value
     {
         Player.money += addedValue;
     }
 
-    public static void DecreaseMoney(int decreasedValue)
+    public static void DecreaseMoney(int decreasedValue) // Decreases money by a specified value
     {
         Player.money -= decreasedValue;
     }
-    public static void ResetMoney(int newAmount)
+    public static void ResetMoney(int newAmount) // Resets money to a specified amount
     {
         Player.money = newAmount;
     }

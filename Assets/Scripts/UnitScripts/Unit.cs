@@ -61,7 +61,7 @@ public class Unit : MonoBehaviour
         effectHandler.setunit(this);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) // Sets initial targets for single-target and look tracking
     {
 
 
@@ -75,7 +75,7 @@ public class Unit : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other) // Clears targets when exiting collider
     {
         LookTarget = null;
 
@@ -89,12 +89,12 @@ public class Unit : MonoBehaviour
             targets.Remove(other.gameObject);
         }
     }
-    private IEnumerator resethitcooldown()
+    private IEnumerator resethitcooldown() // Waits for cooldown duration and resets hit availability
     {
         yield return new WaitForSeconds(hitcooldown);
         canhit = true;
     }
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerStay(Collider other) // Triggers attack logic while enemies remain in range
     {
 
 
@@ -127,7 +127,7 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public void Upgrade()
+    public void Upgrade() // Replaces this unit with an upgraded version and destroys current unit
     {
         GameObject newUnit = Instantiate(upgradedunit, transform.position, transform.rotation);
         OnUnitUpgraded?.Invoke(newUnit);

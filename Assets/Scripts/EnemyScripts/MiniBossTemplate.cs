@@ -10,14 +10,14 @@ public class MiniBossTemplate : Enemy
 
  
 
-    private void Attack()
+    private void Attack() // Executes the assigned custom attack logic
     {
         customlogic();
     }
 
 
 
-    public void Hit()
+    public void Hit() // Triggers an attack if allowed based on cooldown flag and attack wait time
     {
         if (attackwait > 0 && canattack == true)
         {

@@ -40,7 +40,7 @@ public class Enemy : MonoBehaviour
     public EnemyStates state = EnemyStates.Idle;
 
 
-    public void DecreaseHealth(float amount)
+    public void DecreaseHealth(float amount) // Reduces health and calls Die() if health drops to 0 or below
     {
         if (!isdead)
         {
@@ -52,7 +52,7 @@ public class Enemy : MonoBehaviour
         }
     }
     
-    private void Die()
+    private void Die() // Handles enemy death state, animation, sound, and starts deletion coroutine
     {
         isdead = true;
         state = Enemy.EnemyStates.Idle;
@@ -61,7 +61,7 @@ public class Enemy : MonoBehaviour
         StartCoroutine(DeleteEnemy());
     }
 
-    private IEnumerator DeleteEnemy()
+    private IEnumerator DeleteEnemy() // Waits for the death animation to finish, then adds money and kills to the UI, and finally destroys the enemy object
     {
         yield return new WaitForSeconds(AnimationHandler.GetWaitTime(animator) + 0.5f);
 
@@ -76,7 +76,7 @@ public class Enemy : MonoBehaviour
 
         Destroy(gameObject);
     }
-    public void move()
+    public void move() // Sets enemy state to Moving and updates animator parameter
     {
         state = EnemyStates.Moving;
   

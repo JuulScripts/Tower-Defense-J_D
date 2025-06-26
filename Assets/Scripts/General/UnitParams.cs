@@ -12,6 +12,8 @@ public class UnitParams
     public UnityEvent<GameObject> effect;
     public MonoBehaviour routinerunner;
     public Unit.UnitTypes unittype;
+     
+    // Constructor to initialize all unit parameters for an attack v
     public UnitParams(int attackFunction, GameObject target, List<GameObject> targets, float number, Animator[] animator, MonoBehaviour routinerunner, Unit.UnitTypes unittype, UnityEvent<GameObject> effect = null)
     {
         this.attackFunction = attackFunction;

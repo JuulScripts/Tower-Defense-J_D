@@ -28,12 +28,12 @@ public class EnemySpawner : MonoBehaviour
         StartSpawning();
     }
 
-    public void StartSpawning()
+    public void StartSpawning() // Begins the wave spawning coroutine.
     {
         StartCoroutine(SpawnWave());
     }
 
-    private IEnumerator SpawnWave()
+    private IEnumerator SpawnWave() // Spawns enemies in waves based on the defined wave list.
     {
         while (currentWave < waves.Count)
         {
@@ -74,7 +74,7 @@ public class EnemySpawner : MonoBehaviour
             }
         }
     }
-    private IEnumerator LoadNextLevelDelayed(float delay)
+    private IEnumerator LoadNextLevelDelayed(float delay) // Waits for a specified delay before loading the next level based on the current scene.
     {
         yield return new WaitForSeconds(delay);
 

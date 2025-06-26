@@ -71,7 +71,7 @@ public class GameUIManager : MonoBehaviour
         RefreshUpgradeButtons();
     }
 
-    void UpdateTopBar()
+    void UpdateTopBar() // Updates the top bar UI with current player money, kills, and timer information.
     {
         _playerMoney = PlayerHandling.Player.money;
         _moneyText.text = $"[${_playerMoney}]";
@@ -86,7 +86,7 @@ public class GameUIManager : MonoBehaviour
 
     }
 
-    void UpdateTowerButtons()
+    void UpdateTowerButtons() // Updates the tower buttons with their respective costs and availability based on player money.
     {
         int count = Mathf.Min(_towerButtons.Length, _priceTexts.Length, _towerCosts.Length);
         for (int i = 0; i < count; i++)
@@ -102,7 +102,7 @@ public class GameUIManager : MonoBehaviour
         }
     }
 
-    public void TryPlaceUnit(int index)
+    public void TryPlaceUnit(int index) // Attempts to place a unit based on the index provided, checking if the player has enough money.
     {
         if (index < 0 || index >= _towerCosts.Length) return;
 
@@ -124,7 +124,7 @@ public class GameUIManager : MonoBehaviour
         }
     }
 
-    private void OnUnitPlaced(GameObject unitGO)
+    private void OnUnitPlaced(GameObject unitGO) // Handles the placement of a unit, plays a sound, and registers the upgrade button for the placed unit.
     {
         Unit unit = unitGO.GetComponent<Unit>();
         if (unit != null)
@@ -134,14 +134,14 @@ public class GameUIManager : MonoBehaviour
         }
     }
 
-    string FormatTime(float time)
+    string FormatTime(float time) // Time display
     {
         int minutes = Mathf.FloorToInt(time / 60f);
         int seconds = Mathf.FloorToInt(time % 60f);
         return $"{minutes:00}:{seconds:00}";
     }
 
-    public void AddMoney(int amount)
+    public void AddMoney(int amount) // Adds money to the player and updates ui
     {
         UpdateTopBar();
         UpdateTowerButtons();
@@ -149,13 +149,13 @@ public class GameUIManager : MonoBehaviour
         SoundManager.Instance.PlaySFX(SoundManager.Instance.coinSound);
     }
 
-    public void AddKill()
+    public void AddKill() // Increments the kill count and updates the UI
     {
         _kills++;
         UpdateTopBar();
     }
 
-    private void RegisterUpgradeButton(Unit unit)
+    private void RegisterUpgradeButton(Unit unit) // Registers an upgrade button for a unit, setting its properties and adding functionality to upgrade the unit when clicked.
     {
 
         if (unit == null || unit.upgradedunit == null)
@@ -202,7 +202,7 @@ public class GameUIManager : MonoBehaviour
         });
     }
 
-    public void RefreshUpgradeButtons()
+    public void RefreshUpgradeButtons() // Refreshes the upgrade buttons by checking if the player can afford each upgrade based on the current money and updating the interactability of each button.
     {
         foreach (Transform child in _upgradePanel)
         {
@@ -225,7 +225,7 @@ public class GameUIManager : MonoBehaviour
             }
         }
     }
-    private void OnUnitUpgraded(GameObject upgradedUnitGO)
+    private void OnUnitUpgraded(GameObject upgradedUnitGO) // Handles the event when a unit is upgraded, retrieves the upgraded unit component, and registers the upgrade button for it.
     {
         Unit upgradedUnit = upgradedUnitGO.GetComponent<Unit>();
         if (upgradedUnit != null)
@@ -234,11 +234,11 @@ public class GameUIManager : MonoBehaviour
             RegisterUpgradeButton(upgradedUnit);
         }
     }
-    private void OnDestroy()
+    private void OnDestroy() // Unsubscribes from the events when the GameUIManager is destroyed to prevent memory leaks.
     {
         Unit.OnUnitUpgraded -= OnUnitUpgraded;
     }
-    public void ShowLevelCompleteMessage()
+    public void ShowLevelCompleteMessage() // Displays the level complete message and plays a sound if the level complete text is set.
     {
         if (_levelCompleteText != null)
         {

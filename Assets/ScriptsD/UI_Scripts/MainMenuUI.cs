@@ -28,7 +28,7 @@ public class MainMenuUI : MonoBehaviour
             _backButton.onClick.AddListener(BackToMainMenu);
     }
 
-    void StartGame()
+    void StartGame() 
     {
         _mainMenuPanel.SetActive(false);
         SceneManager.LoadScene("Level1Scene");
@@ -56,7 +56,7 @@ public class MainMenuUI : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
     }
-    void ShowEndResultIfAvailable()
+    void ShowEndResultIfAvailable() // Checks if the game has finished and displays the appropriate message based on the result.
     {
         if (GameResult.GameFinished)
         {
