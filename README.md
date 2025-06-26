@@ -70,8 +70,6 @@ The actual target method is fetched and manually added to the new event.
 
 This lets us inject the needed parameters while still using UnityEvents for Inspector usability.
 
-💡 Code Snippets
-Here’s where you could add relevant snippets in your README (or link out to full examples)
 
 
 
