@@ -82,7 +82,7 @@ public class EnemySpawner : MonoBehaviour
 
         if (currentScene == "Level1Scene")
         {
-            PlayerHandling.ResetMoney(30);
+            PlayerHandling.ResetMoney(400);
             SceneManager.LoadScene("Level2Scene");
         }
         else if (currentScene == "Level2Scene")

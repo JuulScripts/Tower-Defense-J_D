@@ -4731,20 +4731,8 @@ MonoBehaviour:
   - {fileID: 1710539659}
   waves:
   - enemyPrefab: {fileID: 4819582709742053201, guid: f5692028686d74c469b8e59ea8a2dd87, type: 3}
-    amount: 12
-    spawnInterval: 2.5
-  - enemyPrefab: {fileID: 3531886731525604943, guid: 78fc33ecaa5d5f045a944b3c1628035a, type: 3}
-    amount: 10
-    spawnInterval: 2
-  - enemyPrefab: {fileID: 5928832869126332202, guid: 4af064c7243ff4d4c98f330b32afad35, type: 3}
-    amount: 8
-    spawnInterval: 2
-  - enemyPrefab: {fileID: 9204112539020833396, guid: 515c421822f9b2d4c930711d6692a3c7, type: 3}
-    amount: 1
-    spawnInterval: 2
-  - enemyPrefab: {fileID: 4819582709742053201, guid: 02596573febcc5341a51fee606edcb2d, type: 3}
     amount: 5
-    spawnInterval: 2
+    spawnInterval: 2.5
 --- !u!4 &1399227538
 Transform:
   m_ObjectHideFlags: 0
